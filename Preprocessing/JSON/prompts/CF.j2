@@ -1,68 +1,103 @@
 You are a financial statement structuring engine.
 
-Convert the Markdown Cash Flow Statement into structured JSON.
+Convert the Markdown Cash Flow Statement into structured JSON with FIXED schema.
 
-RULES:
-- Do not modify numbers.
-- Remove commas.
-- Convert bracket numbers to negative.
-- Convert "-" to null.
-- Exclude totals from rows.
-- Output valid JSON only.
+CRITICAL EXTRACTION RULES:
+1. Extract EVERY single line item from the table - no exceptions.
+2. Do NOT skip any row, even if:
+   - It appears after total rows
+   - It has blank or zero values
+   - It is an adjustment or reconciliation item
+   - It is a sub-item or nested row
+3. Continue parsing until the ABSOLUTE END of the table.
 
-DATE EXTRACTION RULES:
-1. Extract reporting dates from statement header (e.g., "for the year ended March 31, 2025") or column headers.
-2. Convert ALL dates to ISO 8601 format: YYYY-MM-DD
-3. Use these ISO dates as keys in the "values" object.
-4. Include extracted dates in metadata.reporting_dates array.
-5. If only year is given (e.g., "2025"), assume March 31 → "2025-03-31"
+NUMERIC RULES:
+- Remove commas from numbers.
+- Convert bracket numbers (e.g., (500)) to -500.
+- Convert "-" or blank cells to null.
 
-SCHEMA:
+ACTIVITY CLASSIFICATION:
+- "operating": Cash flows from operating activities
+- "investing": Cash flows from investing activities
+- "financing": Cash flows from financing activities
+
+VALUE MAPPING:
+- First/latest column → "current_year"
+- Second/previous column → "previous_year"
+- Store actual dates in metadata.current_year_date and metadata.previous_year_date
+
+FIXED SCHEMA:
 
 {{
   "statement_type": "cash_flow",
-  "category": "standalone OR consolidated",
+  "category": "standalone | consolidated",
   "metadata": {{
-    "statement_title": "",
-    "period": "",
-    "reporting_dates": ["YYYY-MM-DD", "YYYY-MM-DD"]
+    "statement_title": "string",
+    "period": "string",
+    "current_year_date": "YYYY-MM-DD",
+    "previous_year_date": "YYYY-MM-DD",
+    "currency": "INR | USD | etc",
+    "unit": "lakhs | crores | millions | null"
   }},
   "rows": [
     {{
       "activity_type": "operating | investing | financing",
-      "raw_label": "",
-      "normalized_label": "",
-      "note_reference": "",
+      "raw_label": "string",
+      "normalized_label": "string",
+      "note_reference": "string | null",
+      "is_subtotal": false,
+      "parent_label": "string | null",
       "values": {{
-        "YYYY-MM-DD": number or null,
-        "YYYY-MM-DD": number or null
+        "current_year": number | null,
+        "previous_year": number | null
       }}
     }}
   ],
   "totals": {{
-    "net_cash_from_operating": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "net_cash_from_investing": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "net_cash_from_financing": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "net_increase_in_cash": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "opening_cash_balance": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "closing_cash_balance": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }}
+    "net_cash_from_operating": {{ "current_year": number, "previous_year": number }},
+    "net_cash_from_investing": {{ "current_year": number, "previous_year": number }},
+    "net_cash_from_financing": {{ "current_year": number, "previous_year": number }},
+    "net_increase_in_cash": {{ "current_year": number, "previous_year": number }},
+    "opening_cash_balance": {{ "current_year": number, "previous_year": number }},
+    "closing_cash_balance": {{ "current_year": number, "previous_year": number }}
   }}
 }}
 
 ----------------------------------------
-FEW-SHOT EXAMPLE
+EXAMPLE
 ----------------------------------------
 
 INPUT:
 
 # Cash Flow Statement for the year ended March 31, 2025
+(Rs. in Lakhs)
 
-| Particulars | Year ended March 31, 2025 | Year ended March 31, 2024 |
-| Operating Activities |
-| Net Profit | 5,000 | 4,000 |
-| Net Cash from Operating Activities | 5,500 | 4,200 |
-| Opening Cash | 1,000 | 800 |
-| Closing Cash | 6,500 | 5,000 |
+| Particulars | Notes | Year ended 31.03.2025 | Year ended 31.03.2024 |
+| A. Cash Flow from Operating Activities |
+| Net Profit before tax | | 5,000 | 4,000 |
+| Adjustments for: |
+| Depreciation | | 500 | 450 |
+| Finance Costs | | 300 | 280 |
+| Interest Income | | (200) | (180) |
+| Operating Profit before Working Capital Changes | | 5,600 | 4,550 |
+| Changes in Working Capital: |
+| (Increase)/Decrease in Trade Receivables | | (1,000) | (800) |
+| Increase/(Decrease) in Trade Payables | | 500 | 400 |
+| Cash Generated from Operations | | 5,100 | 4,150 |
+| Direct Taxes Paid | | (1,000) | (900) |
+| Net Cash from Operating Activities (A) | | 4,100 | 3,250 |
+| B. Cash Flow from Investing Activities |
+| Purchase of Property, Plant and Equipment | | (2,000) | (1,800) |
+| Sale of Investments | | 500 | 400 |
+| Net Cash used in Investing Activities (B) | | (1,500) | (1,400) |
+| C. Cash Flow from Financing Activities |
+| Proceeds from Borrowings | | 1,000 | 800 |
+| Repayment of Borrowings | | (500) | (400) |
+| Dividends Paid | | (600) | (500) |
+| Net Cash from Financing Activities (C) | | (100) | (100) |
+| Net Increase in Cash (A+B+C) | | 2,500 | 1,750 |
+| Cash and Cash Equivalents at Beginning | | 1,000 | 1,250 |
+| Cash and Cash Equivalents at End | | 3,500 | 3,000 |
 
 OUTPUT:
 
@@ -72,36 +107,151 @@ OUTPUT:
   "metadata": {{
     "statement_title": "Cash Flow Statement",
     "period": "for the year ended March 31, 2025",
-    "reporting_dates": ["2025-03-31", "2024-03-31"]
+    "current_year_date": "2025-03-31",
+    "previous_year_date": "2024-03-31",
+    "currency": "INR",
+    "unit": "lakhs"
   }},
   "rows": [
     {{
       "activity_type": "operating",
-      "raw_label": "Net Profit",
-      "normalized_label": "net_profit",
+      "raw_label": "Net Profit before tax",
+      "normalized_label": "net_profit_before_tax",
       "note_reference": null,
-      "values": {{
-        "2025-03-31": 5000,
-        "2024-03-31": 4000
-      }}
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 5000, "previous_year": 4000 }}
+    }},
+    {{
+      "activity_type": "operating",
+      "raw_label": "Depreciation",
+      "normalized_label": "depreciation",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": "adjustments",
+      "values": {{ "current_year": 500, "previous_year": 450 }}
+    }},
+    {{
+      "activity_type": "operating",
+      "raw_label": "Finance Costs",
+      "normalized_label": "finance_costs",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": "adjustments",
+      "values": {{ "current_year": 300, "previous_year": 280 }}
+    }},
+    {{
+      "activity_type": "operating",
+      "raw_label": "Interest Income",
+      "normalized_label": "interest_income",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": "adjustments",
+      "values": {{ "current_year": -200, "previous_year": -180 }}
+    }},
+    {{
+      "activity_type": "operating",
+      "raw_label": "Operating Profit before Working Capital Changes",
+      "normalized_label": "operating_profit_before_working_capital_changes",
+      "note_reference": null,
+      "is_subtotal": true,
+      "parent_label": null,
+      "values": {{ "current_year": 5600, "previous_year": 4550 }}
+    }},
+    {{
+      "activity_type": "operating",
+      "raw_label": "(Increase)/Decrease in Trade Receivables",
+      "normalized_label": "change_in_trade_receivables",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": "changes_in_working_capital",
+      "values": {{ "current_year": -1000, "previous_year": -800 }}
+    }},
+    {{
+      "activity_type": "operating",
+      "raw_label": "Increase/(Decrease) in Trade Payables",
+      "normalized_label": "change_in_trade_payables",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": "changes_in_working_capital",
+      "values": {{ "current_year": 500, "previous_year": 400 }}
+    }},
+    {{
+      "activity_type": "operating",
+      "raw_label": "Cash Generated from Operations",
+      "normalized_label": "cash_generated_from_operations",
+      "note_reference": null,
+      "is_subtotal": true,
+      "parent_label": null,
+      "values": {{ "current_year": 5100, "previous_year": 4150 }}
+    }},
+    {{
+      "activity_type": "operating",
+      "raw_label": "Direct Taxes Paid",
+      "normalized_label": "direct_taxes_paid",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": -1000, "previous_year": -900 }}
+    }},
+    {{
+      "activity_type": "investing",
+      "raw_label": "Purchase of Property, Plant and Equipment",
+      "normalized_label": "purchase_of_ppe",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": -2000, "previous_year": -1800 }}
+    }},
+    {{
+      "activity_type": "investing",
+      "raw_label": "Sale of Investments",
+      "normalized_label": "sale_of_investments",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 500, "previous_year": 400 }}
+    }},
+    {{
+      "activity_type": "financing",
+      "raw_label": "Proceeds from Borrowings",
+      "normalized_label": "proceeds_from_borrowings",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 1000, "previous_year": 800 }}
+    }},
+    {{
+      "activity_type": "financing",
+      "raw_label": "Repayment of Borrowings",
+      "normalized_label": "repayment_of_borrowings",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": -500, "previous_year": -400 }}
+    }},
+    {{
+      "activity_type": "financing",
+      "raw_label": "Dividends Paid",
+      "normalized_label": "dividends_paid",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": -600, "previous_year": -500 }}
     }}
   ],
   "totals": {{
-    "net_cash_from_operating": {{
-      "2025-03-31": 5500,
-      "2024-03-31": 4200
-    }},
-    "opening_cash_balance": {{
-      "2025-03-31": 1000,
-      "2024-03-31": 800
-    }},
-    "closing_cash_balance": {{
-      "2025-03-31": 6500,
-      "2024-03-31": 5000
-    }}
+    "net_cash_from_operating": {{ "current_year": 4100, "previous_year": 3250 }},
+    "net_cash_from_investing": {{ "current_year": -1500, "previous_year": -1400 }},
+    "net_cash_from_financing": {{ "current_year": -100, "previous_year": -100 }},
+    "net_increase_in_cash": {{ "current_year": 2500, "previous_year": 1750 }},
+    "opening_cash_balance": {{ "current_year": 1000, "previous_year": 1250 }},
+    "closing_cash_balance": {{ "current_year": 3500, "previous_year": 3000 }}
   }}
 }}
 
 ----------------------------------------
+REMINDER: Extract ALL rows. Use ONLY "current_year" and "previous_year" as value keys.
+
 Now convert the following Markdown into JSON:
 

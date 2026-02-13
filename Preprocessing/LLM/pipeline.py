@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import re
 from pathlib import Path
 from typing import Type
 
@@ -52,6 +53,59 @@ def create_chain(statement_type: str, schema: Type[BaseModel]):
     return prompt | llm | parser
 
 
+def count_markdown_table_rows(markdown: str) -> int:
+    """Count non-header, non-separator rows in markdown tables."""
+    lines = markdown.strip().split('\n')
+    row_count = 0
+    in_table = False
+    
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith('|') and stripped.endswith('|'):
+            in_table = True
+            # Skip separator rows (contain only |, -, :, and spaces)
+            if re.match(r'^[\|\-:\s]+$', stripped):
+                continue
+            # Skip header rows (first row after table start, usually contains column names)
+            # Count data rows
+            cells = [c.strip() for c in stripped.split('|')[1:-1]]
+            # Skip rows that look like headers (Particulars, Notes, etc.)
+            if cells and not all(c.lower() in ['particulars', 'notes', 'note', ''] for c in cells):
+                row_count += 1
+        elif in_table and not stripped.startswith('|'):
+            in_table = False
+    
+    return row_count
+
+
+def validate_extraction_completeness(
+    markdown: str,
+    result: dict,
+    statement_type: str
+) -> None:
+    """Log warning if extracted rows don't match markdown table rows."""
+    md_row_count = count_markdown_table_rows(markdown)
+    
+    json_row_count = len(result.get('rows', []))
+    totals = result.get('totals', {})
+    totals_count = sum(1 for v in totals.values() if v is not None)
+    
+    total_extracted = json_row_count + totals_count
+    
+    logger.info(
+        "[%s] Extraction stats - Markdown rows: ~%d, JSON rows: %d, Totals: %d",
+        statement_type, md_row_count, json_row_count, totals_count
+    )
+    
+    # Allow some tolerance since headers/section names aren't counted as rows
+    if json_row_count < (md_row_count * 0.5):
+        logger.warning(
+            "[%s] POTENTIAL DATA LOSS - Extracted %d rows but markdown appears to have ~%d data rows. "
+            "Some line items may have been skipped.",
+            statement_type, json_row_count, md_row_count
+        )
+
+
 async def call_llm_with_retry(
     chain,
     markdown: str,
@@ -63,7 +117,12 @@ async def call_llm_with_retry(
         try:
             result = await chain.ainvoke({"markdown_content": markdown})
             validated = schema.model_validate(result)
-            return validated.model_dump(), None
+            result_dict = validated.model_dump()
+            
+            # Debug logging for extraction validation
+            validate_extraction_completeness(markdown, result_dict, statement_type)
+            
+            return result_dict, None
         except ValidationError as e:
             error_msg = f"Validation error for {statement_type} (attempt {attempt + 1})"
             logger.warning("%s: %s", error_msg, str(e))

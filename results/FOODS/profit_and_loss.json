@@ -4,10 +4,10 @@
     "metadata": {
         "statement_title": "STANDALONE STATEMENT OF PROFIT AND LOSS",
         "period": "FOR THE YEAR ENDED MARCH 31, 2025",
-        "reporting_dates": [
-            "2025-03-31",
-            "2024-03-31"
-        ]
+        "current_year_date": "2025-03-31",
+        "previous_year_date": "2024-03-31",
+        "currency": "INR",
+        "unit": "lakhs"
     },
     "rows": [
         {
@@ -15,9 +15,11 @@
             "raw_label": "Revenue from Operations",
             "normalized_label": "revenue_from_operations",
             "note_reference": "29",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 97291.93,
-                "2024-03-31": 99731.33
+                "current_year": 97291.93,
+                "previous_year": 99731.33
             }
         },
         {
@@ -25,19 +27,35 @@
             "raw_label": "Other Income",
             "normalized_label": "other_income",
             "note_reference": "30",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 1396.39,
-                "2024-03-31": 774.1
+                "current_year": 1396.39,
+                "previous_year": 774.1
+            }
+        },
+        {
+            "section": "income",
+            "raw_label": "Total Income (I+II)",
+            "normalized_label": "total_income",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": 98688.32,
+                "previous_year": 100505.43
             }
         },
         {
             "section": "expenses",
             "raw_label": "Cost of Materials Consumed",
             "normalized_label": "cost_of_materials_consumed",
-            "note_reference": "",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 74079.83,
-                "2024-03-31": 74022.49
+                "current_year": 74079.83,
+                "previous_year": 74022.49
             }
         },
         {
@@ -45,9 +63,11 @@
             "raw_label": "Changes in Inventories of Finished Goods and Work-in-Progress",
             "normalized_label": "changes_in_inventories_of_finished_goods_and_work_in_progress",
             "note_reference": "31",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": -9514.06,
-                "2024-03-31": -4596.61
+                "current_year": -9514.06,
+                "previous_year": -4596.61
             }
         },
         {
@@ -55,9 +75,11 @@
             "raw_label": "Employee Benefits Expense",
             "normalized_label": "employee_benefits_expense",
             "note_reference": "32",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 4547.95,
-                "2024-03-31": 3969.43
+                "current_year": 4547.95,
+                "previous_year": 3969.43
             }
         },
         {
@@ -65,9 +87,11 @@
             "raw_label": "Finance Costs",
             "normalized_label": "finance_costs",
             "note_reference": "33",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 5780.33,
-                "2024-03-31": 4547.69
+                "current_year": 5780.33,
+                "previous_year": 4547.69
             }
         },
         {
@@ -75,9 +99,11 @@
             "raw_label": "Depreciation and Amortization Expense",
             "normalized_label": "depreciation_and_amortization_expense",
             "note_reference": "34",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 2050.46,
-                "2024-03-31": 1629.39
+                "current_year": 2050.46,
+                "previous_year": 1629.39
             }
         },
         {
@@ -85,9 +111,35 @@
             "raw_label": "Other Expenses",
             "normalized_label": "other_expenses",
             "note_reference": "35",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 16527.23,
-                "2024-03-31": 14511.86
+                "current_year": 16527.23,
+                "previous_year": 14511.86
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Total Expenses",
+            "normalized_label": "total_expenses",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": 93471.74,
+                "previous_year": 94084.25
+            }
+        },
+        {
+            "section": "income",
+            "raw_label": "Profit Before Tax (III-IV)",
+            "normalized_label": "profit_before_tax",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": 5216.58,
+                "previous_year": 6421.18
             }
         },
         {
@@ -95,19 +147,23 @@
             "raw_label": "Current Tax",
             "normalized_label": "current_tax",
             "note_reference": "36",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 1230.86,
-                "2024-03-31": 2155.0
+                "current_year": 1230.86,
+                "previous_year": 2155.0
             }
         },
         {
             "section": "tax",
             "raw_label": "Excess Provision for Tax of earlier years",
             "normalized_label": "excess_provision_for_tax_of_earlier_years",
-            "note_reference": "",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": -181.29,
-                "2024-03-31": null
+                "current_year": -181.29,
+                "previous_year": null
             }
         },
         {
@@ -115,72 +171,158 @@
             "raw_label": "Deferred Tax",
             "normalized_label": "deferred_tax",
             "note_reference": "36",
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": -266.59,
-                "2024-03-31": 595.68
+                "current_year": -266.59,
+                "previous_year": 595.68
+            }
+        },
+        {
+            "section": "tax",
+            "raw_label": "Total Tax Expenses",
+            "normalized_label": "total_tax_expenses",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": 782.98,
+                "previous_year": 2750.68
+            }
+        },
+        {
+            "section": "income",
+            "raw_label": "Net Profit for the period (V-VI)",
+            "normalized_label": "net_profit_for_the_period",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": 4433.6,
+                "previous_year": 3670.5
             }
         },
         {
             "section": "other_comprehensive_income",
             "raw_label": "Remeasurement of the defined benefit (asset)",
             "normalized_label": "remeasurement_of_the_defined_benefit_asset",
-            "note_reference": "",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": -53.24,
-                "2024-03-31": -15.9
+                "current_year": -53.24,
+                "previous_year": -15.9
             }
         },
         {
             "section": "other_comprehensive_income",
             "raw_label": "Fair Value changes in Equity instruments through OCI",
             "normalized_label": "fair_value_changes_in_equity_instruments_through_oci",
-            "note_reference": "",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": -3.81,
-                "2024-03-31": 12.56
+                "current_year": -3.81,
+                "previous_year": 12.56
             }
         },
         {
             "section": "other_comprehensive_income",
             "raw_label": "Income tax relating to above items",
             "normalized_label": "income_tax_relating_to_above_items",
-            "note_reference": "",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 13.4,
-                "2024-03-31": 4.63
+                "current_year": 13.4,
+                "previous_year": 4.63
             }
         },
         {
             "section": "other_comprehensive_income",
+            "raw_label": "Other Comprehensive Income/(Loss)",
+            "normalized_label": "other_comprehensive_income_loss",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": -43.65,
+                "previous_year": 1.29
+            }
+        },
+        {
+            "section": "income",
+            "raw_label": "Total Comprehensive Income for the year",
+            "normalized_label": "total_comprehensive_income_for_the_year",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": 4389.95,
+                "previous_year": 3671.79
+            }
+        },
+        {
+            "section": "eps",
             "raw_label": "Basic (in `)",
             "normalized_label": "basic_eps",
-            "note_reference": "37",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
             "values": {
-                "2025-03-31": 6.33,
-                "2024-03-31": 6.82
+                "current_year": 6.33,
+                "previous_year": 6.82
+            }
+        },
+        {
+            "section": "eps",
+            "raw_label": "Diluted (in `)",
+            "normalized_label": "diluted_eps",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 6.31,
+                "previous_year": 6.16
             }
         }
     ],
     "totals": {
         "total_income": {
-            "2025-03-31": 98688.32,
-            "2024-03-31": 100505.43
+            "current_year": 98688.32,
+            "previous_year": 100505.43
         },
         "total_expenses": {
-            "2025-03-31": 93471.74,
-            "2024-03-31": 94084.25
+            "current_year": 93471.74,
+            "previous_year": 94084.25
         },
         "profit_before_tax": {
-            "2025-03-31": 5216.58,
-            "2024-03-31": 6421.18
+            "current_year": 5216.58,
+            "previous_year": 6421.18
+        },
+        "tax_expense": {
+            "current_year": 782.98,
+            "previous_year": 2750.68
         },
         "profit_after_tax": {
-            "2025-03-31": 4433.6,
-            "2024-03-31": 3670.5
+            "current_year": 4433.6,
+            "previous_year": 3670.5
+        },
+        "other_comprehensive_income": {
+            "current_year": -43.65,
+            "previous_year": 1.29
+        },
+        "total_comprehensive_income": {
+            "current_year": 4389.95,
+            "previous_year": 3671.79
         },
         "basic_eps": {
-            "2025-03-31": 6.33,
-            "2024-03-31": 6.82
+            "current_year": 6.33,
+            "previous_year": 6.82
+        },
+        "diluted_eps": {
+            "current_year": 6.31,
+            "previous_year": 6.16
         }
     }
 }

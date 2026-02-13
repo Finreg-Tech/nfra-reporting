@@ -1,69 +1,102 @@
 You are a financial statement structuring engine.
 
-Convert the Markdown Statement of Profit and Loss into structured JSON.
+Convert the Markdown Statement of Profit and Loss into structured JSON with FIXED schema.
 
-STRICT RULES:
-- Do not modify numbers.
-- Remove commas.
+CRITICAL EXTRACTION RULES:
+1. Extract EVERY single line item from the table - no exceptions.
+2. Do NOT skip any row, even if:
+   - It appears after total rows
+   - It has blank or zero values
+   - It seems repetitive or is a sub-item
+3. Continue parsing until the ABSOLUTE END of the table.
+
+NUMERIC RULES:
+- Remove commas from numbers.
 - Convert bracket numbers (e.g., (51.28)) to -51.28.
-- Convert "-" to null.
-- Exclude total rows from "rows".
-- Output only valid JSON.
+- Convert "-" or blank cells to null.
 
-DATE EXTRACTION RULES:
-1. Extract reporting dates from statement header (e.g., "for the year ended March 31, 2025") or column headers.
-2. Convert ALL dates to ISO 8601 format: YYYY-MM-DD
-3. Use these ISO dates as keys in the "values" object.
-4. Include extracted dates in metadata.reporting_dates array.
-5. If only year is given (e.g., "2025"), assume March 31 → "2025-03-31"
+SECTION CLASSIFICATION:
+- "income": Revenue, sales, other income items
+- "expenses": All cost/expense items  
+- "tax": Tax expense, deferred tax items
+- "other_comprehensive_income": OCI items, remeasurement gains/losses
+- "eps": Earnings per share items (Basic EPS, Diluted EPS)
 
-SCHEMA:
+EPS HANDLING:
+- If "Basic and Diluted EPS" appears on same line, create TWO separate rows
+- Add EPS values to both rows array AND totals
+
+VALUE MAPPING:
+- First/latest column → "current_year"
+- Second/previous column → "previous_year"
+- Store actual dates in metadata.current_year_date and metadata.previous_year_date
+
+FIXED SCHEMA:
 
 {{
   "statement_type": "profit_and_loss",
-  "category": "standalone OR consolidated",
+  "category": "standalone | consolidated",
   "metadata": {{
-    "statement_title": "",
-    "period": "",
-    "reporting_dates": ["YYYY-MM-DD", "YYYY-MM-DD"]
+    "statement_title": "string",
+    "period": "string",
+    "current_year_date": "YYYY-MM-DD",
+    "previous_year_date": "YYYY-MM-DD",
+    "currency": "INR | USD | etc",
+    "unit": "lakhs | crores | millions | null"
   }},
   "rows": [
     {{
-      "section": "income | expenses | tax | other_comprehensive_income",
-      "raw_label": "",
-      "normalized_label": "",
-      "note_reference": "",
+      "section": "income | expenses | tax | other_comprehensive_income | eps",
+      "raw_label": "string",
+      "normalized_label": "string",
+      "note_reference": "string | null",
+      "is_subtotal": false,
+      "parent_label": "string | null",
       "values": {{
-        "YYYY-MM-DD": number or null,
-        "YYYY-MM-DD": number or null
+        "current_year": number | null,
+        "previous_year": number | null
       }}
     }}
   ],
   "totals": {{
-    "total_income": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "total_expenses": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "profit_before_tax": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "profit_after_tax": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }},
-    "basic_eps": {{ "YYYY-MM-DD": number, "YYYY-MM-DD": number }}
+    "total_income": {{ "current_year": number, "previous_year": number }},
+    "total_expenses": {{ "current_year": number, "previous_year": number }},
+    "profit_before_tax": {{ "current_year": number, "previous_year": number }},
+    "tax_expense": {{ "current_year": number, "previous_year": number }},
+    "profit_after_tax": {{ "current_year": number, "previous_year": number }},
+    "other_comprehensive_income": {{ "current_year": number, "previous_year": number }},
+    "total_comprehensive_income": {{ "current_year": number, "previous_year": number }},
+    "basic_eps": {{ "current_year": number, "previous_year": number }},
+    "diluted_eps": {{ "current_year": number, "previous_year": number }}
   }}
 }}
 
 ----------------------------------------
-FEW-SHOT EXAMPLE
+EXAMPLE
 ----------------------------------------
 
 INPUT:
 
 # Statement of Profit and Loss for the year ended March 31, 2025
+(Rs. in Lakhs)
 
-| Particulars | Notes | Year ended March 31, 2025 | Year ended March 31, 2024 |
+| Particulars | Notes | Year ended 31.03.2025 | Year ended 31.03.2024 |
 | Income |
-| Revenue | 10 | 10,000 | 9,000 |
-| Total Income | | 10,000 | 9,000 |
+| Revenue from Operations | 10 | 10,000 | 9,000 |
+| Other Income | 11 | 500 | 400 |
+| Total Income | | 10,500 | 9,400 |
 | Expenses |
-| Finance Costs | 11 | 2,000 | 1,800 |
+| Finance Costs | 12 | 2,000 | 1,800 |
 | Total Expenses | | 2,000 | 1,800 |
-| Profit before tax | | 8,000 | 7,200 |
+| Profit before tax | | 8,500 | 7,600 |
+| Tax Expense | 14 | 2,000 | 1,800 |
+| Profit for the year | | 6,500 | 5,800 |
+| Other Comprehensive Income |
+| Remeasurement gains | | 100 | 80 |
+| Total Comprehensive Income | | 6,600 | 5,880 |
+| Earnings per share |
+| Basic EPS | | 28.74 | 25.65 |
+| Diluted EPS | | 28.50 | 25.40 |
 
 OUTPUT:
 
@@ -73,46 +106,91 @@ OUTPUT:
   "metadata": {{
     "statement_title": "Statement of Profit and Loss",
     "period": "for the year ended March 31, 2025",
-    "reporting_dates": ["2025-03-31", "2024-03-31"]
+    "current_year_date": "2025-03-31",
+    "previous_year_date": "2024-03-31",
+    "currency": "INR",
+    "unit": "lakhs"
   }},
   "rows": [
     {{
       "section": "income",
-      "raw_label": "Revenue",
-      "normalized_label": "revenue",
+      "raw_label": "Revenue from Operations",
+      "normalized_label": "revenue_from_operations",
       "note_reference": "10",
-      "values": {{
-        "2025-03-31": 10000,
-        "2024-03-31": 9000
-      }}
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 10000, "previous_year": 9000 }}
+    }},
+    {{
+      "section": "income",
+      "raw_label": "Other Income",
+      "normalized_label": "other_income",
+      "note_reference": "11",
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 500, "previous_year": 400 }}
     }},
     {{
       "section": "expenses",
       "raw_label": "Finance Costs",
       "normalized_label": "finance_costs",
-      "note_reference": "11",
-      "values": {{
-        "2025-03-31": 2000,
-        "2024-03-31": 1800
-      }}
+      "note_reference": "12",
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 2000, "previous_year": 1800 }}
+    }},
+    {{
+      "section": "tax",
+      "raw_label": "Tax Expense",
+      "normalized_label": "tax_expense",
+      "note_reference": "14",
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 2000, "previous_year": 1800 }}
+    }},
+    {{
+      "section": "other_comprehensive_income",
+      "raw_label": "Remeasurement gains",
+      "normalized_label": "remeasurement_gains",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 100, "previous_year": 80 }}
+    }},
+    {{
+      "section": "eps",
+      "raw_label": "Basic EPS",
+      "normalized_label": "basic_eps",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 28.74, "previous_year": 25.65 }}
+    }},
+    {{
+      "section": "eps",
+      "raw_label": "Diluted EPS",
+      "normalized_label": "diluted_eps",
+      "note_reference": null,
+      "is_subtotal": false,
+      "parent_label": null,
+      "values": {{ "current_year": 28.50, "previous_year": 25.40 }}
     }}
   ],
   "totals": {{
-    "total_income": {{
-      "2025-03-31": 10000,
-      "2024-03-31": 9000
-    }},
-    "total_expenses": {{
-      "2025-03-31": 2000,
-      "2024-03-31": 1800
-    }},
-    "profit_before_tax": {{
-      "2025-03-31": 8000,
-      "2024-03-31": 7200
-    }}
+    "total_income": {{ "current_year": 10500, "previous_year": 9400 }},
+    "total_expenses": {{ "current_year": 2000, "previous_year": 1800 }},
+    "profit_before_tax": {{ "current_year": 8500, "previous_year": 7600 }},
+    "tax_expense": {{ "current_year": 2000, "previous_year": 1800 }},
+    "profit_after_tax": {{ "current_year": 6500, "previous_year": 5800 }},
+    "other_comprehensive_income": {{ "current_year": 100, "previous_year": 80 }},
+    "total_comprehensive_income": {{ "current_year": 6600, "previous_year": 5880 }},
+    "basic_eps": {{ "current_year": 28.74, "previous_year": 25.65 }},
+    "diluted_eps": {{ "current_year": 28.50, "previous_year": 25.40 }}
   }}
 }}
 
 ----------------------------------------
+REMINDER: Extract ALL rows. Use ONLY "current_year" and "previous_year" as value keys.
+
 Now convert the following Markdown into JSON:
 
