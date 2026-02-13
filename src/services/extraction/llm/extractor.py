@@ -18,7 +18,7 @@ from config import (
     ML_CLASSIFIER_PATH,
     ML_VECTORIZER_PATH,
 )
-from Preprocessing.LLM.normalizer import normalize_category, normalize_text
+from src.services.extraction.llm.normalizer import normalize_category, normalize_text
 
 logger = logging.getLogger(__name__)
 

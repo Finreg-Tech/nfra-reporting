@@ -1,4 +1,4 @@
-from Preprocessing.LLM.schemas import (
+from src.services.extraction.llm.schemas import (
     BalanceSheetMetadata,
     BalanceSheetRow,
     BalanceSheetSchema,
@@ -13,7 +13,7 @@ from Preprocessing.LLM.schemas import (
     ProfitLossTotals,
 )
 
-from Preprocessing.LLM.pipeline import (
+from src.services.extraction.llm.pipeline import (
     generate_balance_sheet_json,
     generate_cash_flow_json,
     generate_profit_loss_json,
@@ -21,9 +21,9 @@ from Preprocessing.LLM.pipeline import (
     save_json,
 )
 
-from Preprocessing.LLM.extractor import extract_financial_markdown
+from src.services.extraction.llm.extractor import extract_financial_markdown
 
-from Preprocessing.LLM.normalizer import (
+from src.services.extraction.llm.normalizer import (
     normalize_category,
     normalize_text,
     sanitize_name,

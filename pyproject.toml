@@ -1,0 +1,137 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fin-llm-nfra"
+version = "1.0.0"
+description = "NFRA Financial Statement Compliance Validation System"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Rohan", email = "rohan@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Accounting",
+]
+
+# Core dependencies (add versions from requirements.txt)
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.23.0",
+    "python-multipart>=0.0.6",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "langgraph>=0.0.40",
+    "langchain>=0.1.0",
+    "langchain-openai>=0.0.5",
+    "openai>=1.0.0",
+    "llama-index>=0.10.0",
+    "llama-parse>=0.3.0",
+    "pymupdf>=1.23.0",
+    "psycopg2-binary>=2.9.0",
+    "pgvector>=0.2.0",
+    "sqlalchemy>=2.0.0",
+    "scikit-learn>=1.3.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "jinja2>=3.1.0",
+    "python-dotenv>=1.0.0",
+    "httpx>=0.25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+]
+
+[project.scripts]
+nfra-server = "src.api.server:main"
+
+[project.urls]
+"Homepage" = "https://github.com/your-org/fin-llm-nfra"
+"Bug Tracker" = "https://github.com/your-org/fin-llm-nfra/issues"
+
+# =============================================================================
+# Setuptools Configuration
+# =============================================================================
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "config*", "resources*"]
+
+[tool.setuptools.package-data]
+"resources.models" = ["*.pkl"]
+"resources.prompts" = ["*.j2", "*.json", "*.py"]
+
+# =============================================================================
+# Tool Configurations
+# =============================================================================
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+    | \.venv
+    | \.rog313
+    | __pycache__
+    | results
+    | REPORT
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # Pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "B008",  # function calls in argument defaults
+]
+
+[tool.ruff.isort]
+known-first-party = ["src", "config", "resources"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = [
+    "\.venv",
+    "\.rog313",
+    "__pycache__",
+    "results",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"

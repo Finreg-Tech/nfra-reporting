@@ -1,0 +1,184 @@
+{
+  "financial_statement_mapping": {
+    "balance_sheet": {
+      "property_plant_and_equipment": {
+        "standard_code": "Ind AS 16",
+        "standard_name": "Property, Plant and Equipment",
+        "rag_query_keywords": ["recognition criteria", "measurement", "depreciation", "derecognition"],
+        "related_standards": ["Ind AS 36", "Ind AS 23"]
+      },
+      "capital_work_in_progress": {
+        "standard_code": "Ind AS 16",
+        "standard_name": "Property, Plant and Equipment",
+        "rag_query_keywords": ["self-constructed assets", "cost of asset", "capitalisation"],
+        "related_standards": ["Ind AS 23"]
+      },
+      "investment_property": {
+        "standard_code": "Ind AS 40",
+        "standard_name": "Investment Property",
+        "rag_query_keywords": ["cost model", "fair value", "transfers", "classification"],
+        "related_standards": ["Ind AS 16"]
+      },
+      "intangible_assets": {
+        "standard_code": "Ind AS 38",
+        "standard_name": "Intangible Assets",
+        "rag_query_keywords": ["identifiability", "control", "amortisation", "indefinite useful life"],
+        "related_standards": ["Ind AS 36"]
+      },
+      "financial_assets": {
+        "standard_code": "Ind AS 109",
+        "standard_name": "Financial Instruments",
+        "rag_query_keywords": ["classification", "amortised cost", "FVTPL", "expected credit loss"],
+        "related_standards": ["Ind AS 32", "Ind AS 107"]
+      },
+      "investments": {
+        "standard_code": "Ind AS 109",
+        "standard_name": "Financial Instruments",
+        "rag_query_keywords": ["equity instruments", "debt instruments", "fair value"],
+        "related_standards": ["Ind AS 27", "Ind AS 28"]
+      },
+      "trade_receivables": {
+        "standard_code": "Ind AS 109",
+        "standard_name": "Financial Instruments",
+        "rag_query_keywords": ["initial recognition", "transaction price", "impairment", "allowance"],
+        "related_standards": ["Ind AS 115"]
+      },
+      "cash_and_cash_equivalents": {
+        "standard_code": "Ind AS 7",
+        "standard_name": "Statement of Cash Flows",
+        "rag_query_keywords": ["components of cash", "cash equivalents", "bank overdrafts"],
+        "related_standards": []
+      },
+      "inventories": {
+        "standard_code": "Ind AS 2",
+        "standard_name": "Inventories",
+        "rag_query_keywords": ["cost formula", "net realisable value", "valuation"],
+        "related_standards": []
+      },
+      "equity_share_capital": {
+        "standard_code": "Ind AS 1",
+        "standard_name": "Presentation of Financial Statements",
+        "rag_query_keywords": ["disclosure of share capital", "rights preferences", "reconciliation"],
+        "related_standards": ["Ind AS 32"]
+      },
+      "other_equity": {
+        "standard_code": "Ind AS 1",
+        "standard_name": "Presentation of Financial Statements",
+        "rag_query_keywords": ["reserves and surplus", "retained earnings", "nature of reserves"],
+        "related_standards": []
+      },
+      "borrowings": {
+        "standard_code": "Ind AS 109",
+        "standard_name": "Financial Instruments",
+        "rag_query_keywords": ["amortised cost", "effective interest method", "derecognition"],
+        "related_standards": ["Ind AS 23", "Ind AS 32"]
+      },
+      "lease_liability": {
+        "standard_code": "Ind AS 116",
+        "standard_name": "Leases",
+        "rag_query_keywords": ["lease liability measurement", "interest on lease liability", "lease term"],
+        "related_standards": []
+      },
+      "right_of_use_asset": {
+        "standard_code": "Ind AS 116",
+        "standard_name": "Leases",
+        "rag_query_keywords": ["right-of-use asset measurement", "depreciation of ROU asset"],
+        "related_standards": ["Ind AS 16"]
+      },
+      "provisions": {
+        "standard_code": "Ind AS 37",
+        "standard_name": "Provisions, Contingent Liabilities and Contingent Assets",
+        "rag_query_keywords": ["present obligation", "probable outflow", "reliable estimate"],
+        "related_standards": []
+      },
+      "deferred_tax_liabilities": {
+        "standard_code": "Ind AS 12",
+        "standard_name": "Income Taxes",
+        "rag_query_keywords": ["temporary differences", "tax base", "recognition"],
+        "related_standards": []
+      },
+      "trade_payables": {
+        "standard_code": "Ind AS 109",
+        "standard_name": "Financial Instruments",
+        "rag_query_keywords": ["financial liability recognition", "fair value"],
+        "related_standards": []
+      }
+    },
+    "profit_and_loss": {
+      "revenue": {
+        "standard_code": "Ind AS 115",
+        "standard_name": "Revenue from Contracts with Customers",
+        "rag_query_keywords": ["performance obligations", "transaction price", "point in time"],
+        "related_standards": []
+      },
+      "other_income": {
+        "standard_code": "Ind AS 1",
+        "standard_name": "Presentation of Financial Statements",
+        "rag_query_keywords": ["interest income", "dividend income", "gain on sale"],
+        "related_standards": ["Ind AS 109"]
+      },
+      "employee_benefit_expense": {
+        "standard_code": "Ind AS 19",
+        "standard_name": "Employee Benefits",
+        "rag_query_keywords": ["short-term benefits", "post-employment benefits", "defined benefit"],
+        "related_standards": []
+      },
+      "finance_costs": {
+        "standard_code": "Ind AS 23",
+        "standard_name": "Borrowing Costs",
+        "rag_query_keywords": ["capitalisation", "qualifying asset", "interest expense"],
+        "related_standards": ["Ind AS 109", "Ind AS 116"]
+      },
+      "depreciation_and_amortisation": {
+        "standard_code": "Ind AS 16",
+        "standard_name": "Property, Plant and Equipment",
+        "rag_query_keywords": ["useful life", "residual value", "depreciation method"],
+        "related_standards": ["Ind AS 38"]
+      },
+      "tax_expense": {
+        "standard_code": "Ind AS 12",
+        "standard_name": "Income Taxes",
+        "rag_query_keywords": ["current tax", "deferred tax expense"],
+        "related_standards": []
+      },
+      "earnings_per_share": {
+        "standard_code": "Ind AS 33",
+        "standard_name": "Earnings per Share",
+        "rag_query_keywords": ["basic EPS", "diluted EPS", "weighted average shares"],
+        "related_standards": []
+      }
+    },
+    "notes_to_accounts": {
+      "contingent_liabilities": {
+        "standard_code": "Ind AS 37",
+        "standard_name": "Provisions, Contingent Liabilities and Contingent Assets",
+        "rag_query_keywords": ["possible obligation", "remote possibility", "disclosure"],
+        "related_standards": []
+      },
+      "related_party_transactions": {
+        "standard_code": "Ind AS 24",
+        "standard_name": "Related Party Disclosures",
+        "rag_query_keywords": ["key management personnel", "arm's length transaction"],
+        "related_standards": []
+      },
+      "segment_reporting": {
+        "standard_code": "Ind AS 108",
+        "standard_name": "Operating Segments",
+        "rag_query_keywords": ["chief operating decision maker", "reportable segments"],
+        "related_standards": []
+      },
+      "events_after_reporting_period": {
+        "standard_code": "Ind AS 10",
+        "standard_name": "Events after the Reporting Period",
+        "rag_query_keywords": ["adjusting events", "non-adjusting events"],
+        "related_standards": []
+      },
+      "accounting_policies": {
+        "standard_code": "Ind AS 8",
+        "standard_name": "Accounting Policies, Changes in Accounting Estimates and Errors",
+        "rag_query_keywords": ["change in accounting policy", "prior period errors"],
+        "related_standards": ["Ind AS 1"]
+      }
+    }
+  }
+}

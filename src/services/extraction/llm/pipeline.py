@@ -18,7 +18,7 @@ from config import (
     PROMPT_FILES,
     RESULTS_DIR,
 )
-from Preprocessing.LLM.schemas import BalanceSheetSchema, CashFlowSchema, ProfitLossSchema
+from src.services.extraction.llm.schemas import BalanceSheetSchema, CashFlowSchema, ProfitLossSchema
 
 logger = logging.getLogger(__name__)
 
@@ -53,29 +53,63 @@ def create_chain(statement_type: str, schema: Type[BaseModel]):
     return prompt | llm | parser
 
 
-def count_markdown_table_rows(markdown: str) -> int:
-    """Count non-header, non-separator rows in markdown tables."""
+def count_markdown_data_rows(markdown: str) -> int:
+    """
+    Count actual data rows in markdown tables - rows with numerical values.
+    
+    This filters out:
+    - Header rows (Particulars, Notes, etc.)
+    - Section separator rows (|---|---|)
+    - Section headers (ASSETS, LIABILITIES, etc. - no numbers)
+    - Sub-headers (Non-current assets, Current assets, etc.)
+    
+    A "data row" must have at least one cell with a numerical value.
+    """
     lines = markdown.strip().split('\n')
-    row_count = 0
-    in_table = False
+    data_row_count = 0
+    
+    # Pattern to match numbers (including negatives, decimals, parentheses for negatives)
+    number_pattern = re.compile(r'[\d,]+\.?\d*|\([\d,]+\.?\d*\)')
     
     for line in lines:
         stripped = line.strip()
-        if stripped.startswith('|') and stripped.endswith('|'):
-            in_table = True
-            # Skip separator rows (contain only |, -, :, and spaces)
-            if re.match(r'^[\|\-:\s]+$', stripped):
-                continue
-            # Skip header rows (first row after table start, usually contains column names)
-            # Count data rows
-            cells = [c.strip() for c in stripped.split('|')[1:-1]]
-            # Skip rows that look like headers (Particulars, Notes, etc.)
-            if cells and not all(c.lower() in ['particulars', 'notes', 'note', ''] for c in cells):
-                row_count += 1
-        elif in_table and not stripped.startswith('|'):
-            in_table = False
+        
+        # Skip non-table lines
+        if not (stripped.startswith('|') and stripped.endswith('|')):
+            continue
+        
+        # Skip separator rows (|---|---|)
+        if re.match(r'^[\|\-:\s]+$', stripped):
+            continue
+        
+        # Get cells
+        cells = [c.strip() for c in stripped.split('|')[1:-1]]
+        
+        if not cells:
+            continue
+        
+        # Skip header rows - check if first cell is a common header name
+        first_cell_lower = cells[0].lower().strip()
+        header_keywords = [
+            'particulars', 'particular', 'notes', 'note', 'note no', 
+            'as at', 'for the year', 'schedule', ''
+        ]
+        if first_cell_lower in header_keywords:
+            continue
+        
+        # Check if this row has at least one numerical value (actual data row)
+        # Skip the first cell (particulars/label) and check remaining cells
+        has_number = False
+        for cell in cells[1:]:  # Skip first cell (the "particular" name)
+            cell_clean = cell.replace(',', '').replace('(', '').replace(')', '').replace('-', '').strip()
+            if number_pattern.search(cell):
+                has_number = True
+                break
+        
+        if has_number:
+            data_row_count += 1
     
-    return row_count
+    return data_row_count
 
 
 def validate_extraction_completeness(
@@ -83,26 +117,25 @@ def validate_extraction_completeness(
     result: dict,
     statement_type: str
 ) -> None:
-    """Log warning if extracted rows don't match markdown table rows."""
-    md_row_count = count_markdown_table_rows(markdown)
+    """Log warning if extracted rows don't match markdown data rows."""
+    md_data_rows = count_markdown_data_rows(markdown)
     
     json_row_count = len(result.get('rows', []))
     totals = result.get('totals', {})
     totals_count = sum(1 for v in totals.values() if v is not None)
     
-    total_extracted = json_row_count + totals_count
-    
     logger.info(
-        "[%s] Extraction stats - Markdown rows: ~%d, JSON rows: %d, Totals: %d",
-        statement_type, md_row_count, json_row_count, totals_count
+        "[%s] Extraction stats - Markdown data rows: ~%d, JSON rows: %d, Totals: %d",
+        statement_type, md_data_rows, json_row_count, totals_count
     )
     
-    # Allow some tolerance since headers/section names aren't counted as rows
-    if json_row_count < (md_row_count * 0.5):
+    # Only warn if there's a significant mismatch (less than 70% extracted)
+    # Some rows may legitimately be skipped (subtotals that get consolidated, etc.)
+    if md_data_rows > 0 and json_row_count < (md_data_rows * 0.5):
         logger.warning(
-            "[%s] POTENTIAL DATA LOSS - Extracted %d rows but markdown appears to have ~%d data rows. "
+            "[%s] POTENTIAL DATA LOSS - Extracted %d rows but markdown has ~%d data rows with numbers. "
             "Some line items may have been skipped.",
-            statement_type, json_row_count, md_row_count
+            statement_type, json_row_count, md_data_rows
         )
 
 

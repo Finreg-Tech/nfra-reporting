@@ -1,29 +1,46 @@
 import os
 from pathlib import Path
 from typing import Final
-
 from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_DIR: Final[Path] = Path(__file__).resolve().parent
-PREPROCESSING_DIR: Final[Path] = BASE_DIR / "Preprocessing"
-ML_MODELS_DIR: Final[Path] = BASE_DIR / "ML_MODELS"
+# =============================================================================
+# Directory Paths
+# =============================================================================
+
+BASE_DIR: Final[Path] = Path(__file__).resolve().parent.parent
+ML_MODELS_DIR: Final[Path] = BASE_DIR / "resources" / "models"
 RESULTS_DIR: Final[Path] = BASE_DIR / "results"
-PROMPTS_DIR: Final[Path] = PREPROCESSING_DIR / "JSON" / "prompts"
+PROMPTS_DIR: Final[Path] = BASE_DIR / "resources" / "prompts"
+KNOWLEDGE_GRAPH_PATH: Final[Path] = PROMPTS_DIR / "knowledge_graph.json"
+
+# =============================================================================
+# Logging Configuration
+# =============================================================================
+
+LOG_LEVEL: Final[str] = os.getenv("LOG_LEVEL", "INFO")
+LOG_FORMAT: Final[str] = os.getenv(
+    "LOG_FORMAT", 
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
+# =============================================================================
+# API & Processing Configuration
+# =============================================================================
 
 MAX_FILE_SIZE_BYTES: Final[int] = int(os.getenv("MAX_FILE_SIZE_BYTES", 50 * 1024 * 1024))
 MAX_LLAMAPARSE_WORKERS: Final[int] = int(os.getenv("MAX_LLAMAPARSE_WORKERS", 3))
 LLM_RETRY_COUNT: Final[int] = int(os.getenv("LLM_RETRY_COUNT", 2))
 
-OPENAI_API_KEY: Final[str] = os.getenv("OPENAI_API_KEY", "")
+OPENAI_API_KEY: Final[str] = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL: Final[str] = os.getenv("OPENAI_MODEL", "gpt-4o")
 OPENAI_TEMPERATURE: Final[float] = float(os.getenv("OPENAI_TEMPERATURE", 0))
 
-LLAMA_CLOUD_API_KEY: Final[str] = os.getenv("LLAMA_CLOUD_API_KEY", "")
+LLAMA_CLOUD_API_KEY: Final[str] = os.getenv("LLAMA_CLOUD_API_KEY")
 
 API_HOST: Final[str] = os.getenv("API_HOST", "0.0.0.0")
-API_PORT: Final[int] = int(os.getenv("API_PORT", 8000))
+API_PORT: Final[int] = int(os.getenv("API_PORT", "8000"))
 
 PROMPT_FILES: Final[dict[str, Path]] = {
     "balance_sheet": PROMPTS_DIR / "BS.j2",

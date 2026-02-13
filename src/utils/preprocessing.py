@@ -1,7 +1,7 @@
 import fitz
 
 from config import HEADER_KEYWORDS
-from Preprocessing.LLM.normalizer import normalize_text
+from src.services.extraction.llm.normalizer import normalize_text
 
 
 def extract_header_text(page, header_ratio: float = 0.15) -> str:
