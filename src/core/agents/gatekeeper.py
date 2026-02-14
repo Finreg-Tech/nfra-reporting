@@ -122,12 +122,57 @@ def validate_extraction_schema(extracted_data: Dict[str, Any]) -> None:
         logger.error("Gatekeeper: %s", error_msg)
         raise SchemaValidationError(error_msg)
 
+# Blocklist for company name extraction - lines containing these are not company names
+COMPANY_NAME_BLOCKLIST = [
+    "BSE", "NSE", "BOMBAY STOCK EXCHANGE", "NATIONAL STOCK EXCHANGE",
+    "ANNUAL REPORT", "INTEGRATED REPORT", "FINANCIAL STATEMENTS"
+]
+
+# Corporate suffixes that indicate a valid company name
+CORPORATE_SUFFIXES = ["LIMITED", "LTD", "PVT LTD", "PRIVATE LIMITED", "PLC", "CORP"]
+
+
+def _extract_company_name_from_first_page(first_page_text: str) -> Optional[str]:
+    """
+    Extract company name from the first page of the PDF.
+    
+    Iterates through the first 20 lines, selecting a line only if:
+    - It contains a corporate suffix (LIMITED, LTD, etc.)
+    - It does NOT contain any blocklisted terms
+    
+    Returns the company name or None if not found.
+    """
+    lines = first_page_text.split('\n')
+    
+    for line in lines[:20]:
+        line_stripped = line.strip()
+        if not line_stripped:
+            continue
+        
+        line_upper = line_stripped.upper()
+        
+        # Skip if line contains any blocklisted term
+        if any(blocked in line_upper for blocked in COMPANY_NAME_BLOCKLIST):
+            continue
+        
+        # Check if line contains a corporate suffix
+        if any(suffix in line_upper for suffix in CORPORATE_SUFFIXES):
+            logger.debug("Found company name candidate: %s", line_stripped)
+            return line_stripped
+    
+    return None
+
+
 def extract_metadata_from_pdf(file_path: str) -> MetadataState:
     try:
         doc = fitz.open(file_path)
     except Exception as e:
         raise ValueError(f"Failed to open PDF: {str(e)}")
     
+    # Extract text from first page for company name
+    first_page_text = doc[0].get_text() if len(doc) > 0 else ""
+    
+    # Extract text from first 5 pages for other metadata (CIN, FY, report type)
     full_text = ""
     for page_num in range(min(5, len(doc))):
         full_text += doc[page_num].get_text()
@@ -139,6 +184,11 @@ def extract_metadata_from_pdf(file_path: str) -> MetadataState:
         "company_name": None,
         "report_type": None
     }
+    
+    # Extract company name from first page only
+    metadata["company_name"] = _extract_company_name_from_first_page(first_page_text)
+    if metadata["company_name"]:
+        logger.info("Extracted company name from PDF: %s", metadata["company_name"])
     
     cin_pattern = r'[A-Z]{1}\d{5}[A-Z]{2}\d{4}[A-Z]{3}\d{6}'
     cin_match = re.search(cin_pattern, full_text)
@@ -186,9 +236,18 @@ async def gatekeeper_node(state: AgentState) -> AgentState:
     if not markdown_data:
         raise ValueError("Gatekeeper: Failed to extract markdown from PDF")
     
-    company_name = markdown_data.get("company_name", "unknown")
-    if metadata.get("company_name") is None:
-        metadata["company_name"] = company_name
+    # Company name priority:
+    # 1. Use regex-extracted name from PDF (metadata["company_name"]) if valid
+    # 2. Fall back to markdown_data company_name only if regex returned None
+    markdown_company_name = markdown_data.get("company_name", "unknown")
+    
+    if metadata.get("company_name"):
+        # Regex extractor found a valid company name - use it (overwrites any temp name)
+        logger.info("Gatekeeper: Using regex-extracted company name: %s", metadata["company_name"])
+    else:
+        # Fall back to markdown data company name (could be temp folder name)
+        metadata["company_name"] = markdown_company_name
+        logger.warning("Gatekeeper: Falling back to markdown company name: %s", markdown_company_name)
     
     state["metadata"] = metadata
     
@@ -225,7 +284,7 @@ async def gatekeeper_node(state: AgentState) -> AgentState:
     
     logger.info("Gatekeeper: Step 3 - Processing markdown with LLM pipeline")
     
-    result = await process_company(company_name, bs_md, pl_md, cf_md)
+    result = await process_company(metadata["company_name"], bs_md, pl_md, cf_md)
     
     if result.get("errors"):
         logger.warning("Gatekeeper: Extraction completed with errors - %s", result["errors"])
