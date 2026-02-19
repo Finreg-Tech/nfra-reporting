@@ -1,0 +1,664 @@
+{
+    "statement_type": "cash_flow",
+    "category": "standalone",
+    "metadata": {
+        "statement_title": "Standalone Cash Flow Statement",
+        "period": "for the year ended March 31, 2025",
+        "current_year_date": "2025-03-31",
+        "previous_year_date": "2024-03-31",
+        "currency": "INR",
+        "unit": "lakhs"
+    },
+    "rows": [
+        {
+            "activity_type": "operating",
+            "raw_label": "Net Profit Before Tax",
+            "normalized_label": "net_profit_before_tax",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 5216.58,
+                "previous_year": 6421.17
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Depreciation/ Amortization",
+            "normalized_label": "depreciation_amortization",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 2050.46,
+                "previous_year": 1629.39
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Finance Costs",
+            "normalized_label": "finance_costs",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 5780.33,
+                "previous_year": 4547.69
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Unrealized Loss/(Gains) on Foreign Currency Fluctuation",
+            "normalized_label": "unrealized_foreign_currency_fluctuation",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 52.42,
+                "previous_year": -4.6
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Share Based Payments to Employees",
+            "normalized_label": "share_based_payments",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 223.72,
+                "previous_year": 265.98
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Impairment of financial assets",
+            "normalized_label": "impairment_of_financial_assets",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 71.48,
+                "previous_year": -154.46
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Bad Debts Written off and Provision for impairment of Trade Receivable",
+            "normalized_label": "bad_debts_written_off",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 132.28,
+                "previous_year": 308.1
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Balances Written off (Net)",
+            "normalized_label": "balances_written_off_net",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": null,
+                "previous_year": 516.41
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Dividend Income",
+            "normalized_label": "dividend_income",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": -0.34,
+                "previous_year": -0.21
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Interest Received on Deposits and Others",
+            "normalized_label": "interest_received",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": -841.19,
+                "previous_year": -223.91
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Mark to Market Loss/(Gain) on Financial Assets",
+            "normalized_label": "mark_to_market_gain_loss",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 380.28,
+                "previous_year": -516.24
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Balance / Provision Write Back (Net)",
+            "normalized_label": "balance_provision_write_back_net",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": -260.6,
+                "previous_year": -1.68
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Profit on Disposal of Property, Plant and Equipment",
+            "normalized_label": "profit_on_disposal_of_ppe",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": -120.95,
+                "previous_year": -0.43
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Profit on Sale of Investments",
+            "normalized_label": "profit_on_sale_of_investments",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": -11.13,
+                "previous_year": -1.45
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Loss on Sale of License",
+            "normalized_label": "loss_on_sale_of_license",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 34.66,
+                "previous_year": 22.5
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Provision for Gratuity",
+            "normalized_label": "provision_for_gratuity",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 55.4,
+                "previous_year": 36.87
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Provision For Sales Return",
+            "normalized_label": "provision_for_sales_return",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 47.51,
+                "previous_year": 1.13
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Provision for Bonus",
+            "normalized_label": "provision_for_bonus",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 101.88,
+                "previous_year": 87.94
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Provision for Leave Encashment",
+            "normalized_label": "provision_for_leave_encashment",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": 103.09,
+                "previous_year": 58.03
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Net Gain on fair valuation of Mutual Fund",
+            "normalized_label": "net_gain_on_fair_valuation_of_mutual_fund",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": -34.49,
+                "previous_year": -54.39
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Share of profit from partnership firm",
+            "normalized_label": "share_of_profit_from_partnership_firm",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments",
+            "values": {
+                "current_year": null,
+                "previous_year": -10.76
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Operating Profit Before Working Capital Changes",
+            "normalized_label": "operating_profit_before_working_capital_changes",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": 12981.39,
+                "previous_year": 12927.08
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Increase in Trade Receivables",
+            "normalized_label": "increase_in_trade_receivables",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments_for_working_capital",
+            "values": {
+                "current_year": -4209.25,
+                "previous_year": -3377.43
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Increase in Inventories",
+            "normalized_label": "increase_in_inventories",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments_for_working_capital",
+            "values": {
+                "current_year": -10449.32,
+                "previous_year": -4583.5
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Decrease in Financial Assets",
+            "normalized_label": "decrease_in_financial_assets",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments_for_working_capital",
+            "values": {
+                "current_year": 93.44,
+                "previous_year": 9.23
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Increase/(Decrease) in Trade payables",
+            "normalized_label": "increase_decrease_in_trade_payables",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments_for_working_capital",
+            "values": {
+                "current_year": 24220.99,
+                "previous_year": -2834.78
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Decrease in Other Financial Liabilities",
+            "normalized_label": "decrease_in_other_financial_liabilities",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments_for_working_capital",
+            "values": {
+                "current_year": -58.36,
+                "previous_year": -5.85
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "(Decrease)/ Increase in Other Liabilities and Provisions",
+            "normalized_label": "decrease_increase_in_other_liabilities_and_provisions",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments_for_working_capital",
+            "values": {
+                "current_year": -1785.09,
+                "previous_year": 1587.78
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Increase in Other Assets",
+            "normalized_label": "increase_in_other_assets",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "adjustments_for_working_capital",
+            "values": {
+                "current_year": -18206.94,
+                "previous_year": -4745.12
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Cash Generated From Operations",
+            "normalized_label": "cash_generated_from_operations",
+            "note_reference": null,
+            "is_subtotal": true,
+            "parent_label": null,
+            "values": {
+                "current_year": 2586.86,
+                "previous_year": -1022.58
+            }
+        },
+        {
+            "activity_type": "operating",
+            "raw_label": "Income Tax paid (Net of Refund)",
+            "normalized_label": "income_tax_paid_net_of_refund",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -1292.37,
+                "previous_year": -927.96
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Interest Received",
+            "normalized_label": "interest_received",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 614.85,
+                "previous_year": 199.31
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Dividend Received",
+            "normalized_label": "dividend_received",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 0.34,
+                "previous_year": 0.21
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Acquisition of Tangible and Intangible assets",
+            "normalized_label": "acquisition_of_tangible_and_intangible_assets",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -5686.72,
+                "previous_year": -6132.8
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Proceed from disposal of Property, Plant and Equipment",
+            "normalized_label": "proceed_from_disposal_of_ppe",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 149.65,
+                "previous_year": 4.52
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Purchase of Current and Non Current Investments",
+            "normalized_label": "purchase_of_investments",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -1200.1,
+                "previous_year": -662.22
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Proceeds from Capital Subsidy",
+            "normalized_label": "proceeds_from_capital_subsidy",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": null,
+                "previous_year": 337.85
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Sale of Current Investments",
+            "normalized_label": "sale_of_current_investments",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 833.05,
+                "previous_year": 24.92
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Intercorporate Deposit ( Net)",
+            "normalized_label": "intercorporate_deposit_net",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 583.32,
+                "previous_year": -1401.02
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Redemption of Fixed Deposits",
+            "normalized_label": "redemption_of_fixed_deposits",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 2222.59,
+                "previous_year": 448.14
+            }
+        },
+        {
+            "activity_type": "investing",
+            "raw_label": "Invested in Fixed Deposits / Margin Money",
+            "normalized_label": "invested_in_fixed_deposits_margin_money",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -655.6,
+                "previous_year": -2191.0
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Proceeds from Issue of Equity Shares",
+            "normalized_label": "proceeds_from_issue_of_equity_shares",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 4.21,
+                "previous_year": 2.64
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Security Premium received",
+            "normalized_label": "security_premium_received",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 256.62,
+                "previous_year": 139.74
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Proceeds from issue of warrants convertible into equity shares",
+            "normalized_label": "proceeds_from_issue_of_warrants",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": null,
+                "previous_year": 1000.0
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Proceeds from Issue of Equity shares (On Conversion of Warrants)",
+            "normalized_label": "proceeds_from_conversion_of_warrants",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 9639.95,
+                "previous_year": 3698.55
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Equity Share Application Money Pending Allotment",
+            "normalized_label": "equity_share_application_money_pending_allotment",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": null,
+                "previous_year": 124.39
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Finance Costs Paid",
+            "normalized_label": "finance_costs_paid",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -5018.6,
+                "previous_year": -5316.94
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Dividend Paid",
+            "normalized_label": "dividend_paid",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -215.99,
+                "previous_year": -265.95
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Payments for Lease",
+            "normalized_label": "payments_for_lease",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -406.85,
+                "previous_year": -352.11
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Proceeds from Non-current Borrowings",
+            "normalized_label": "proceeds_from_non_current_borrowings",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 2971.07,
+                "previous_year": 10388.64
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Repayment of Non-current Borrowings",
+            "normalized_label": "repayment_of_non_current_borrowings",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -3687.81,
+                "previous_year": -7526.6
+            }
+        },
+        {
+            "activity_type": "financing",
+            "raw_label": "Decrease/(Increase) in Current Borrowings (Net)",
+            "normalized_label": "decrease_increase_in_current_borrowings_net",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -2837.25,
+                "previous_year": 3779.98
+            }
+        }
+    ],
+    "totals": {
+        "net_cash_from_operating": {
+            "current_year": 1294.49,
+            "previous_year": -1950.54
+        },
+        "net_cash_from_investing": {
+            "current_year": -3138.62,
+            "previous_year": -9372.08
+        },
+        "net_cash_from_financing": {
+            "current_year": 705.35,
+            "previous_year": 5672.34
+        },
+        "net_increase_in_cash": {
+            "current_year": -1138.78,
+            "previous_year": -5650.29
+        },
+        "opening_cash_balance": {
+            "current_year": -12527.09,
+            "previous_year": -6876.8
+        },
+        "closing_cash_balance": {
+            "current_year": -13665.87,
+            "previous_year": -12527.09
+        }
+    }
+}

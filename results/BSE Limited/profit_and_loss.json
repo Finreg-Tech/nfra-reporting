@@ -1,0 +1,244 @@
+{
+    "statement_type": "profit_and_loss",
+    "category": "standalone",
+    "metadata": {
+        "statement_title": "Standalone Statement of Profit & Loss",
+        "period": "For The Year Ended March 31, 2025",
+        "current_year_date": "2025-03-31",
+        "previous_year_date": "2024-03-31",
+        "currency": "INR",
+        "unit": null
+    },
+    "rows": [
+        {
+            "section": "income",
+            "raw_label": "Revenue from operations",
+            "normalized_label": "revenue_from_operations",
+            "note_reference": "29",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 903781.68,
+                "previous_year": 791876.94
+            }
+        },
+        {
+            "section": "income",
+            "raw_label": "Other income",
+            "normalized_label": "other_income",
+            "note_reference": "30",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 1455.35,
+                "previous_year": 2572.58
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Cost of materials consumed",
+            "normalized_label": "cost_of_materials_consumed",
+            "note_reference": "31",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 234580.77,
+                "previous_year": 181891.91
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Excise Duty on Sales",
+            "normalized_label": "excise_duty_on_sales",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 527068.79,
+                "previous_year": 462757.39
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Purchase of Stock-in-Trade",
+            "normalized_label": "purchase_of_stock_in_trade",
+            "note_reference": "32",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 11179.58,
+                "previous_year": 31967.57
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Change in inventories of finished goods, work-in-progress and Stock-in-trade",
+            "normalized_label": "change_in_inventories",
+            "note_reference": "33",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": -5046.32,
+                "previous_year": 765.79
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Employee benefits expense",
+            "normalized_label": "employee_benefits_expense",
+            "note_reference": "34",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 12089.32,
+                "previous_year": 10161.89
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Finance costs",
+            "normalized_label": "finance_costs",
+            "note_reference": "35",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 16437.49,
+                "previous_year": 12066.5
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Depreciation and amortization expense",
+            "normalized_label": "depreciation_and_amortization_expense",
+            "note_reference": "36",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 11519.49,
+                "previous_year": 10076.33
+            }
+        },
+        {
+            "section": "expenses",
+            "raw_label": "Other expenses",
+            "normalized_label": "other_expenses",
+            "note_reference": "37",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 73230.13,
+                "previous_year": 64557.45
+            }
+        },
+        {
+            "section": "tax",
+            "raw_label": "Current Tax",
+            "normalized_label": "current_tax",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "Tax Expense",
+            "values": {
+                "current_year": 1714.01,
+                "previous_year": 1090.24
+            }
+        },
+        {
+            "section": "tax",
+            "raw_label": "Deferred tax Charged / (Credit)",
+            "normalized_label": "deferred_tax",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "Tax Expense",
+            "values": {
+                "current_year": 4425.51,
+                "previous_year": 3941.92
+            }
+        },
+        {
+            "section": "other_comprehensive_income",
+            "raw_label": "Remeasurement benefit of defined benefit plans",
+            "normalized_label": "remeasurement_benefit_of_defined_benefit_plans",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "Items that will not be reclassified to Profit or Loss",
+            "values": {
+                "current_year": -116.17,
+                "previous_year": 25.13
+            }
+        },
+        {
+            "section": "other_comprehensive_income",
+            "raw_label": "Income tax expense on remeasurement benefit of defined benefit plans",
+            "normalized_label": "income_tax_on_remeasurement_benefit",
+            "note_reference": null,
+            "is_subtotal": false,
+            "parent_label": "Items that will not be reclassified to Profit or Loss",
+            "values": {
+                "current_year": 29.24,
+                "previous_year": -6.32
+            }
+        },
+        {
+            "section": "eps",
+            "raw_label": "Earnings per Equity share of ₹10 each basic",
+            "normalized_label": "basic_eps",
+            "note_reference": "54",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 58.26,
+                "previous_year": 49.01
+            }
+        },
+        {
+            "section": "eps",
+            "raw_label": "Earnings per Equity share of ₹10 each diluted",
+            "normalized_label": "diluted_eps",
+            "note_reference": "54",
+            "is_subtotal": false,
+            "parent_label": null,
+            "values": {
+                "current_year": 58.26,
+                "previous_year": 49.01
+            }
+        }
+    ],
+    "totals": {
+        "total_income": {
+            "current_year": 905237.03,
+            "previous_year": 794449.52
+        },
+        "total_expenses": {
+            "current_year": 881059.25,
+            "previous_year": 774244.83
+        },
+        "profit_before_tax": {
+            "current_year": 24177.78,
+            "previous_year": 20204.69
+        },
+        "tax_expense": {
+            "current_year": 6139.52,
+            "previous_year": 5032.16
+        },
+        "profit_after_tax": {
+            "current_year": 18038.26,
+            "previous_year": 15172.53
+        },
+        "other_comprehensive_income": {
+            "current_year": -86.93,
+            "previous_year": 18.81
+        },
+        "total_comprehensive_income": {
+            "current_year": 17951.33,
+            "previous_year": 15191.34
+        },
+        "basic_eps": {
+            "current_year": 58.26,
+            "previous_year": 49.01
+        },
+        "diluted_eps": {
+            "current_year": 58.26,
+            "previous_year": 49.01
+        }
+    }
+}
